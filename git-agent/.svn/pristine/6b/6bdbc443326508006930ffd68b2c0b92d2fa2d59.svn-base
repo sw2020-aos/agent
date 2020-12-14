@@ -1,0 +1,28 @@
+package com.aos.tray.agent;
+
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.RaspiPin;
+
+public class LedController {
+	private GpioController gpio;
+	private GpioPinDigitalOutput pin;
+	
+	public LedController() {
+		this.gpio = GpioFactory.getInstance();
+		this.pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "ALERT LED");
+	}
+	
+	public void ledOn() {
+		if (pin.isLow()) {
+			pin.high();
+		}
+	}
+	
+	public void ledOff() {
+		if (pin.isHigh()) {
+			pin.low();
+		}
+	}
+}

@@ -1,0 +1,7 @@
+package com.aos.tray.agent;
+
+public interface TrayRepository {
+	public int getWeight(int trayNo) throws Exception;
+	public String postWeight(int trayNo, int weight) throws Exception;
+	public void setLight(int trayNo, boolean status) throws Exception;
+}

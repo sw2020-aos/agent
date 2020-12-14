@@ -1,0 +1,12 @@
+package com.aos.traytest;
+
+public class RoadMain {
+	public static void main(String[] args) throws InterruptedException {
+		Road road = new Road();
+		
+		while (true) {
+			Thread.sleep(1000);
+			road.run(8279000);
+		}
+	}
+}
