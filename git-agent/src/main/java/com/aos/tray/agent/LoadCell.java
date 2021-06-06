@@ -1,5 +1,8 @@
 package com.aos.tray.agent;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.pi4j.wiringpi.Gpio;
 
 public class LoadCell {
@@ -44,8 +47,6 @@ public class LoadCell {
 		value = count;
 		
 		weight = (long)((zeroing - value) * 0.0027);
-		
-		System.out.println("weight : " + weight);
 		
 		return weight;
 	}

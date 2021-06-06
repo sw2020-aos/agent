@@ -1,5 +1,5 @@
 package com.aos.tray.agent;
 
-public interface TrayService {
+public interface AgentService {
 	public void isOrder() throws Exception;
 }

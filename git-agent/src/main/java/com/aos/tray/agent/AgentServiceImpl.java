@@ -1,15 +1,18 @@
 package com.aos.tray.agent;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @Service
-public class TrayServiceImpl implements TrayService {
+public class AgentServiceImpl implements AgentService {
+	public static Logger logger = LogManager.getLogger(AgentServiceImpl.class);
+	
 	@Value("${tray.no}")
 	private int trayNo;
 	
@@ -23,25 +26,25 @@ public class TrayServiceImpl implements TrayService {
 	private int dt;
 	
 	@Autowired
-	private TrayRepository trayRepository;
+	private AgentRepository agentRepository;
 
 	@Override
 	@Scheduled(fixedDelay = 1000 * 5)
 	public void isOrder() throws Exception {
-		System.out.println("-------------------------------------");
-		System.out.println("Running");
+		logger.info("-------------------------------------");
+		logger.info("Running");
 		
-		long value = trayRepository.getWeight(trayNo, sck, dt, zeroing);
+		long value = agentRepository.getWeight(trayNo, sck, dt, zeroing);
 		double weight = value * 0.001; 
 		
-		String response = trayRepository.postWeight(trayNo, weight);
+		String response = agentRepository.postWeight(trayNo, weight);
 		
 		Message message = toObject(response, Message.class);
 
-		System.out.println(message.isStatus());
+		logger.info(message.isStatus());
 		
-		trayRepository.setLight(trayNo, message.isStatus());
-		System.out.println("-------------------------------------");
+		agentRepository.setLight(trayNo, message.isStatus());
+		logger.info("-------------------------------------");
 	}
 	
 	private <T> T toObject(String message, Class<T> resultType) {

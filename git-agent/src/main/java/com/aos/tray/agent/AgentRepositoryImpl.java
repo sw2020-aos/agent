@@ -1,5 +1,7 @@
 package com.aos.tray.agent;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +18,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 @Repository
-public class TrayRepositoryImpl implements TrayRepository {
+public class AgentRepositoryImpl implements AgentRepository {
+	public static Logger logger = LogManager.getLogger(AgentRepositoryImpl.class);
 	public static final MediaType MEDIA_TYPE_HTML = MediaType.get("tex/html; charset=utf-8");
 	
 	@Value("${server.url}")
@@ -24,13 +27,14 @@ public class TrayRepositoryImpl implements TrayRepository {
 
 	@Override
 	public long getWeight(int trayNo, int sck, int dt, long zeroing) {
-		LoadCell cell = new LoadCell(sck, dt, 24, zeroing);
+		LoadCell loadCell = new LoadCell(sck, dt, 24, zeroing);
 		
-		long weight = cell.getValue();
+		long weight = loadCell.getValue();
 		
 		if (weight <= 0) {
 			weight = 0;
 		}
+		logger.info("weight : " + weight);
 		
 		return weight;
 	}
